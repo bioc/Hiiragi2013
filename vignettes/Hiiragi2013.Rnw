@@ -8,7 +8,7 @@
 BiocStyle::latex(short.fignames=TRUE, use.unsrturl=FALSE)
 @ 
 
-\RequirePackage[usenames,dvipsnames]{color}
+\RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{natbib}
 \RequirePackage{enumitem}
