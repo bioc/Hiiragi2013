@@ -1,4 +1,3 @@
-%rm(list=ls());library("cacheSweave");setCacheDir("sweavecache");Sweave("Hiiragi2013.Rnw", driver=cacheSweaveDriver());library(tools);texi2pdf("Hiiragi2013.tex")
 %\VignetteIndexEntry{Hiiragi2013}
 %\VignettePackage{Hiiragi2013}
 
@@ -23,7 +22,7 @@ BiocStyle::latex(short.fignames=TRUE, use.unsrturl=FALSE)
   extendedchars=true,
   breaklines=true,
   frame=b,
-  stringstyle=\color{Gray}\ttfamily,
+  stringstyle=\color{gray}\ttfamily,
   showspaces=false,
   showtabs=false,
   xleftmargin=17pt,
@@ -47,13 +46,16 @@ BiocStyle::latex(short.fignames=TRUE, use.unsrturl=FALSE)
 \SweaveOpts{keep.source=TRUE,eps=FALSE,include=FALSE,prefix=TRUE}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
-\bioctitle[Analysis report: Ohnishi et al., 2014]{{\Large Executable Analysis Document Supporting:}\\
-  \textbf{Cell-to-cell expression variability followed by signal reinforcement progressively segregates early mouse lineages}\\
-  {\Large Yusuke Ohnishi, Wolfgang Huber, Akiko Tsumura, Minjung Kang, Panagiotis Xenopoulos, Kazuki Kurimoto, Andrzej K.~Ole\'s, Marcos J.~Ara\'uzo-Bravo, Mitinori Saitou, Anna-Katerina Hadjantonakis and Takashi Hiiragi\\
-  Nature Cell Biology 16(1), 27-37 (2014)\\\href{http://dx.doi.org/10.1038/ncb2881}{doi:10.1038/ncb2881}}}
+\bioctitle[Analysis report: Ohnishi et al., 2014]{%
+{\Large Executable Analysis Document Supporting:}\\
+\textbf{Cell-to-cell expression variability followed by signal reinforcement progressively segregates early mouse lineages}\\
+{\large Yusuke Ohnishi, Wolfgang Huber, Akiko Tsumura, Minjung Kang, Panagiotis Xenopoulos, Kazuki Kurimoto, Andrzej K.~Ole\'s, Marcos J.~Ara\'uzo-Bravo, Mitinori Saitou, Anna-Katerina Hadjantonakis and Takashi Hiiragi\\
+Nature Cell Biology 16(1), 27-37 (2014)\\\href{http://dx.doi.org/10.1038/ncb2881}{doi:10.1038/ncb2881}}
+}
 
-\author{Authors of this document: Andrzej K.~Ole\'s, Wolfgang Huber}
+\author{Andrzej K.~Ole\'s, Wolfgang Huber}
 
 \maketitle
 \tableofcontents
@@ -209,11 +211,13 @@ for(k in 1:2) {
 
 numCalls = apply(callsPerGenePerArray, 2, table)
 numCalls = numCalls[rev(seq_len(nrow(numCalls))), ]
+@
 <<numCalls2>>=
 numCalls[, 67]
+@
 <<figmas5calls,fig=TRUE,width=12,height=5>>=
-barplot2(numCalls, names.arg = paste(seq_len(ncol(callsPerGenePerArray))),
-         col = c(brewer.pal(8, "Paired")[2:1], "#e8e8e8"), ylab = "number of genes")
+gplots::barplot2(numCalls, names.arg = paste(seq_len(ncol(callsPerGenePerArray))),
+         col = c(RColorBrewer::brewer.pal(8, "Paired")[2:1], "#e8e8e8"), ylab = "number of genes")
 @ 
 %
 See Figure~\ref{figmas5calls}.
@@ -270,7 +274,7 @@ clusterResampling = function(x, ngenes, k = 2, B = 250, prob = 0.67) {
     submat = mat[, selSamps, drop = FALSE]
     selFeats = order(rowVars(submat), decreasing = TRUE)[seq_len(ngenes)]
     submat = submat[selFeats,, drop = FALSE]
-    pamres = pam(t(submat), k = k, metric = "euclidean")
+    pamres = cluster::pam(t(submat), k = k, metric = "euclidean")
     pred = cl_predict(pamres, t(mat[selFeats, ]), "memberships")
     as.cl_partition(pred)
   }))
@@ -292,7 +296,7 @@ the beginning of this section.
 %
 <<figClue1,fig=TRUE,width=9,height=5>>=
 par(mfrow = c(1,2))
-colours  = c(sampleColourMap["E3.25"], brewer.pal(9,"Set1")[9])
+colours  = c(sampleColourMap["E3.25"], RColorBrewer::brewer.pal(9,"Set1")[9])
 
 boxplot(lapply(ce, `[[`, "agreements"), ylab = "agreement probabilities", col = colours)
 
@@ -346,6 +350,7 @@ k = 3
 csa = lapply(sampleSets, function(samps) list(
   colours = x$sampleColour[samps], 
   r = clusterResampling(x[!FGF4probes, samps], ngenes = 20, k = k)))
+@
 <<figClue2,fig=TRUE,width=8,height=6>>=
 par(mfrow = c(2,3))
 for(i in seq(along = csa))
@@ -430,6 +435,7 @@ To assess the influence of the parameter \Robject{ngenes}, we call the
 algorithm for multiple choices, from 10 to 10000.
 <<doCluster>>=
 ngenes = c(10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000)
+@
 <<cluster, cache=TRUE>>=
 xForClustering = x[, x$Embryonic.day=="E3.5" & x$genotype=="WT"]
 clusters = sapply(ngenes, pamCluster, x = xForClustering)
@@ -543,10 +549,13 @@ Figures~\ref{figHeatmapAll}--\ref{figHeatmap35Coll}.
 %
 <<figHeatmapAll, fig=TRUE, width=16, height=21>>=
 myHeatmap(x[differentially, x$genotype=="WT"])
+@
 <<figHeatmapAllColl, fig=TRUE, width=14, height=19>>=
 myHeatmap(x[differentially, x$genotype=="WT"], collapseDuplicateFeatures = TRUE)
+@
 <<figHeatmap35, fig=TRUE, width=10, height=22>>=
 myHeatmap(xForClustering[differentially, ])
+@
 <<figHeatmap35Coll, fig=TRUE, width=10, height=22>>=
 myHeatmap(xForClustering[differentially, ], collapseDuplicateFeatures = TRUE)
 @
@@ -564,6 +573,7 @@ The following code is analogous to Section~\ref{sec:deCluster}.
 <<de45>>=
 x45 = x[, x$Embryonic.day=="E4.5" & x$genotype=="WT"]
 de45 = rowttests(x45, fac = "lineage")
+@
 <<figIF45, fig=TRUE, pdf=FALSE, png=TRUE, width=4.5, height=4.5>>=
 varianceRank = rank(-rowVars(exprs(x45)))
 plot(varianceRank, de45$p.value, pch = ".", log = "y",
@@ -617,6 +627,7 @@ samples = unlist(groups[c("E3.25", "E3.5 (EPI)", "E3.5 (PE)")])
 deE325toE35 = union(
   getDifferentialExpressedGenes(x, groups, "E3.25", "E3.5 (EPI)"),
   getDifferentialExpressedGenes(x, groups, "E3.25", "E3.5 (PE)"))
+@
 <<figdifferentiallyE325toE35, width=9, height=24, fig=TRUE>>=
 myHeatmap(x[deE325toE35, samples], collapseDuplicateFeatures = TRUE)
 @
@@ -686,6 +697,7 @@ Now we are ready to do it.
 thepca = prcomp(t(exprs(xwte)), center = TRUE)
 pcatrsf = function(x) scale(t(exprs(x)), center = TRUE, scale = FALSE) %*% thepca$rotation
 stopifnot(all( abs(pcatrsf(xwte) - thepca$x) < 1e-6 ))
+@
 <<myPCA>>=
 myPCAplot = function(x, labels, ...) {
   xy = pcatrsf(x)[, 1:2]
@@ -693,6 +705,7 @@ myPCAplot = function(x, labels, ...) {
   if(!missing(labels))
     text(xy, labels, cex = 0.35, adj = c(0.5, 0.5))
 }
+@
 <<figmds-1, fig=TRUE, width=5, height=5, results=hide>>=
 myPCAplot(xwt)
 @
@@ -756,9 +769,10 @@ See Figure~\ref{figmds-4}.
 <<hmprep>>=
 mat = exprs(x[selectedFeatures, ])
 rownames(mat) = fData(x)[selectedFeatures, "symbol"]
+@
 <<fighmko,width=14,height=17,fig=TRUE>>=
-heatmap.2(mat, trace = "none", dendrogram = "none", scale = "row",
-          col = bluered(100), keysize = 0.9,
+gplots::heatmap.2(mat, trace = "none", dendrogram = "none", scale = "row",
+          col = gplots::bluered(100), keysize = 0.9,
           ColSideColors = x$sampleColour, margins = c(7,5))
 @
 
@@ -780,7 +794,7 @@ the WT samples approach the background signal level seen for the KOs.
 <<figFGF4expression, fig=TRUE, width=10, height=5>>=
 x325  = x[, with(pData(x), Embryonic.day=="E3.25")]
 rv325 = rowVars(exprs(x325))
-featureColours = brewer.pal(sum(FGF4probes), "Dark2")
+featureColours = RColorBrewer::brewer.pal(sum(FGF4probes), "Dark2")
 py = t(exprs(x325)[FGF4probes, ])
 matplot(py, type = "p", pch = 15, col = featureColours,
         xlab = "arrays", ylab = expression(log[2] ~ signal),
@@ -842,8 +856,10 @@ colourBar = function(x) rgb2col(colorRamp(c("yellow", "blue"))(zero2one(x)))
 colours[wt325] = colourBar(fgf4Expression)[wt325]
 
 selMDS = order(rv325, decreasing = TRUE)[seq_len(100)]
+@
 <<figFgf4MDS,fig=TRUE,width=6,height=6,results=hide>>=
 MDSplot(x325[selMDS, ], col = colours)
+@
 <<figFgf4MDSColourBar,fig=TRUE,width=1.5,height=4>>=
 atColour = seq(min(fgf4Expression), max(fgf4Expression), length = 20)
 image(z = rbind(seq(along = atColour)), col = colourBar(atColour),
@@ -930,6 +946,7 @@ sds = lapply(varGroups, function(j) myfun(x[sel, j]))
 names(sds) = sprintf("%s (n=%d)", names(sds), listLen(varGroups))
 
 varGroupX = factor(sapply(strsplit(names(varGroups), split = ":"),`[`, 1))
+@
 <<figFGF4variab,fig=TRUE,width=5,height=5>>=
 op = par(mai = c(2,0.7,0.1,0.1))
 plot(jitter(as.integer(varGroupX)), sds, xaxt = "n", xlab = "", ylab = "")
@@ -1085,6 +1102,7 @@ par(mfrow = c(2,2))
 for(p in which(FGF4probes))
   plot(exprs(x35)[p, ], type = "p", pch = 16, col = x35$sampleColour, 
        main = rownames(fData(x325))[p], ylab = expression(log[2]~expression)) 
+@
 <<checkClaim3>>=
 stopifnot(sum(FGF4probes)==4)
 @ 
@@ -1169,6 +1187,7 @@ pwInfo = unlist(lapply(query, keggGet), recursive = FALSE)
 <<assertion,echo=FALSE>>=
 stopifnot(all(pws %in% names(fts)))
 stopifnot(length(pwInfo)==length(pws))
+@
 <<pwImgs,cache=TRUE,eval=FALSE,echo=FALSE>>=
 pwImgs = lapply(query, keggGet, option = "image")
 stopifnot(length(pwImgs)==length(pws))
@@ -1182,6 +1201,7 @@ df = data.frame(
   `p`          = as.character(signif(sapply(pws, function(x) fts[[x]]$p.value),  2)),
   `odds-ratio` = as.character(signif(sapply(pws, function(x) fts[[x]]$estimate), 2)),
   stringsAsFactors = FALSE, check.names = FALSE)
+@
 <<xtable>>=
 df = data.frame(
   `id`   = pws,
@@ -1190,6 +1210,7 @@ df = data.frame(
   `p`         = as.character(signif(sapply(pws, function(x) fts[[x]]$p.value),  2)),
   `statistic` = as.character(signif(sapply(pws, function(x) fts[[x]]$statistic), 2)),
   stringsAsFactors = FALSE, check.names = FALSE)
+@
 <<printxtable>>=
 print(xtable(df,
   caption = paste("Gene set enrichment analysis of selected KEGG pathways, for the",
@@ -1298,6 +1319,7 @@ computeDivergences = function(y, indices, fun) {
              fun(exprVals[strata==s, selFeat, drop = FALSE]))
   })
 }
+@
 <<strata>>=
 x$sampleGroup = factor(x$sampleGroup)
 x$strata = as.numeric(x$sampleGroup)
@@ -1311,6 +1333,7 @@ bootJSD = boot(data = cbind(x$strata, t(exprs(x))),
                statistic = function(...) computeDivergences(..., fun = JSD),
                R = 100, strata = x$strata)
 dim(bootJSD$t) = c(dim(bootJSD$t)[1], dim(bootJSD$t0))
+@
 <<doSD,cache=TRUE>>=
 bootSDV = boot(data = cbind(x$strata, t(exprs(x))),
                statistic = function(...) computeDivergences(..., fun = SDV),
@@ -1378,6 +1401,7 @@ myBoxplot = function(ps) {
   text(seq(along = levels(fac)), par("usr")[3] - diff(par("usr")[3:4])*0.02,
        levels(fac), xpd = NA, srt = 90, adj = c(1,0.5), cex = 0.8)
 }
+@
 <<showGenes,results=hide>>=
 exemplaryGenes = read.table(header = TRUE, stringsAsFactors = FALSE, text = "
 symbol   thclass  probeset
@@ -1606,14 +1630,14 @@ stopifnot(!any(is.na(xq$sampleColours)))
 Next, we define a function \Rfunction{myHeatmap3} to create heatmaps
 <<myHeatmap3>>=
 myHeatmap3 = function(x, log = TRUE, 
-  col = colorRampPalette(brewer.pal(9, "Blues"))(ncol), ncol = 100, ...) {
+  col = colorRampPalette(RColorBrewer::brewer.pal(9, "Blues"))(ncol), ncol = 100, ...) {
   mat = exprs(x)
   if(log){
     mat[mat<1] = 1
     mat = log10(mat)
   }
   rownames(mat) = fData(x)[, "symbol"]
-  heatmap.2(mat, trace = "none", dendrogram = "none", scale = "none", col = col,
+  gplots::heatmap.2(mat, trace = "none", dendrogram = "none", scale = "none", col = col,
             keysize = 0.9, ColSideColors = x$sampleColour, margins = c(5,7), ...)
 }
 @ 
@@ -1632,6 +1656,7 @@ See Figure~\ref{fighm1}.
 <<fighm2,width=14,height=7,fig=TRUE>>=
 selectedGenes = c("Col4a1", "Lamab1", "Cubn", "Gata4", "Serpinh1", "Foxq1", "Aldh18a1")
 myHeatmap3(xq[selectedGenes, ])
+@
 <<checkAssertion,echo=FALSE>>=
 stopifnot(length(selectedGenes)==7)
 @ 
@@ -1668,9 +1693,11 @@ stopifnot(identical(colnames(groupmedians), groups), length(groups)==3)
 discrthreshs = (groupmedians[, 2:3] + groupmedians[, 1:2]) / 2
 stst = sapply(split(seq(along = sxq$sampleGroup), sxq$sampleGroup), 
     function(v) {i1 = head(v,1); i2 = tail(v,1); stopifnot(identical(v, i1:i2)); c(i1,i2)})
+@
 <<show>>=
 groupmedians
 discrthreshs
+@
 <<figthr,width=6,height=7,fig=TRUE>>=
 op = par(mfrow = c(nrow(sxq), 1), mai = c(0.1, 0.7, 0.01, 0.01))
 for(j in seq_len(nrow(sxq))) {
@@ -1701,8 +1728,10 @@ discretize = function(x) {
   }))
   return(x)
 }
+@
 <<discretisation2,cache=FALSE>>=
 sxqd = discretize(sxq)
+@
 <<fighmd,width=12,height=5,fig=TRUE>>=
 myHeatmap3(sxqd, log = FALSE, Colv = FALSE, Rowv = FALSE, key = FALSE, ncol = 3)
 @ 
@@ -1824,7 +1853,7 @@ To examine how cell position within the embryo influences its gene expression, c
 <<mdsplot,width=5,height=5,fig=TRUE,results=hide>>=
 data("xql")
 
-labeledSampleColourMap = c(brewer.pal(5, "RdGy")[c(1,2)], brewer.pal(5, "BrBG")[c(4,5)])
+labeledSampleColourMap = c(RColorBrewer::brewer.pal(5, "RdGy")[c(1,2)], RColorBrewer::brewer.pal(5, "BrBG")[c(4,5)])
 names(labeledSampleColourMap) = c("E4.5_high", "E3.5_high", "E3.5_low",  "E4.5_low")
 labeledGroups = with(pData(xql), list(
   `E3.5_high` = which(Label=="High" & Embryonic.day=="E3.5"),
@@ -1837,7 +1866,7 @@ for(i in seq(along = labeledGroups))
  labeledSampleColours[labeledGroups[[i]]] = labeledSampleColourMap[names(labeledGroups)[i]]
 xql$sampleColours = labeledSampleColours
 
-md = isoMDS( dist(t(log(exprs(xql),2))))$points
+md = MASS::isoMDS(dist(t(log(exprs(xql),2))))$points
 plot(md, col = xql$sampleColours, pch = 16, asp = 1, xlab = "",ylab = "")
 @
 \incfig{mdsplot}{.6\textwidth}{Multi-dimensional scaling plot.}{Light red and light green dots represent E3.5 labeled and unlabeled cells, while red and green ones represent E4.5 labeled and unlabeled cells, respectively.}

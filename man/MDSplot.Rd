@@ -28,14 +28,9 @@ The result of the function is a plot.
 data(x)
 y = x[, with(pData(x), Embryonic.day=="E3.25")]
 
-## some helper functions
-zero2one = function(x) (x-min(x))/diff(range(x))
-rgb2col = function(x) {x=x/255; rgb(x[,1], x[,2], x[,3])}
-
 ## define colours for plotting
-colours = character(nrow(pData(y)))
-colours[y$genotype=="FGF4-KO"] = brewer.pal(10, "Paired")[c(7)]
-colours[y$genotype=="WT"] = brewer.pal(12, "Paired")[c(9)]
+colours = setNames(brewer.pal(10, "Paired")[c(9, 7)], c("WT", "FGF4-KO"))[y$genotype]
+stopifnot(!any(is.na(colours)))
 
 ## select 100 most variable genes for plotting
 selMDS = order(rowVars(exprs(y)), decreasing=TRUE)[seq_len(100)]

@@ -1,13 +1,13 @@
 Package: Hiiragi2013
 Type: Package
 Title: Cell-to-cell expression variability followed by signal reinforcement progressively segregates early mouse lineages
-Version: 1.45.1
+Version: 1.45.2
 Author: Andrzej Oles, Wolfgang Huber
-Maintainer: Andrzej Oles <andrzej.oles@embl.de>
+Maintainer: Wolfgang Huber <wolfgang.huber@embl.org>
 Description: This package contains the experimental data and a complete executable transcript (vignette) of the statistical analysis presented in the paper "Cell-to-cell expression variability followed by signal reinforcement progressively segregates early mouse lineages" by Y. Ohnishi, W. Huber, A. Tsumura, M. Kang, P. Xenopoulos, K. Kurimoto, A. K. Oles, M. J. Arauzo-Bravo, M. Saitou, A.-K. Hadjantonakis and T. Hiiragi; Nature Cell Biology (2014) 16(1): 27-37. doi: 10.1038/ncb2881."
 License: Artistic-2.0
 LazyLoad: true
-Depends: R (>= 3.0.0), affy, Biobase, boot, clue, cluster, genefilter, geneplotter, gplots, gtools, KEGGREST, MASS, mouse4302.db, RColorBrewer, xtable
-Imports: grid, lattice, latticeExtra
-Suggests: ArrayExpress, BiocStyle
+Depends: R (>= 4.0.0), KEGGREST, affy, boot, clue, genefilter, geneplotter, gtools, mouse4302.db, xtable
+Imports: MASS, Biobase, RColorBrewer, cluster, gplots, grid, lattice, latticeExtra
+Suggests: BiocStyle
 biocViews: ExperimentData, MicroarrayData, qPCRData, ReproducibleResearch
