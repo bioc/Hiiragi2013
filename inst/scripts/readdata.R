@@ -65,7 +65,7 @@ a = ReadAffy(filenames = fileNames, celfile.path = CELdir, phenoData = pdata,
 pData(a)$ScanDate = factor(as.Date(sub( "10/16/09", "2010-09-16",
     sapply(strsplit( protocolData(a)$ScanDate, split = "[T ]" ), `[`, 1) )))
 
-save(a, file="a.rda", compress="xz")
+# save(a, file="a.rda", compress="xz")
 
 ## -------------------------------------------------------------------------------------
 ## Normalize with RMA
