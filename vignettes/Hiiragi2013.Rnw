@@ -176,19 +176,17 @@ length(unique(fData(xe)$ensembl[ sdxe>=thresh ]))
 The second approach uses the Wilcoxon signed rank-based gene expression presence/absence
 detection algorithm first implemented in the Affymetrix Microarray Suite version 5.
 %
-<<mas5calls,cache=TRUE,results=hide>>=
-data("a")
-stopifnot(nrow(pData(a))==ncol(x))
+<<mas5calls,eval=FALSE,cache=TRUE,results=hide>>=
 mas5c = mas5calls(a[, selectedSamples])
 @
 %
-where \Robject{a} is an \emph{\Sexpr{class(a)}} object containing the unprocessed raw intensity values.
+where \code{a} is an \emph{AffyBatch} object containing the unprocessed raw intensity values.
 Some bookkeeping and shuffling around is needed to compute the number of genes, as defined by
 unique Ensembl identifiers, for the classes \emph{present} (P), \emph{marginal} (M) and
 \emph{absent} (A). If multiple probe sets map to one gene (which happens frequently on this array
 type), then P trumps M trumps A.
 %
-<<numCalls1,cache=TRUE>>=
+<<numCalls1,eval=FALSE,cache=TRUE>>=
 myUnique = function(x) setdiff(unique(x), "")
 allEnsemblIDs = myUnique(fData(xe)$ensembl)
 
@@ -212,20 +210,20 @@ for(k in 1:2) {
 numCalls = apply(callsPerGenePerArray, 2, table)
 numCalls = numCalls[rev(seq_len(nrow(numCalls))), ]
 @
-<<numCalls2>>=
+<<numCalls2,eval=FALSE>>=
 numCalls[, 67]
 @
-<<figmas5calls,fig=TRUE,width=12,height=5>>=
+<<figmas5calls,eval=FALSE,fig=TRUE,width=12,height=5>>=
 gplots::barplot2(numCalls, names.arg = paste(seq_len(ncol(callsPerGenePerArray))),
          col = c(RColorBrewer::brewer.pal(8, "Paired")[2:1], "#e8e8e8"), ylab = "number of genes")
 @ 
 %
 See Figure~\ref{figmas5calls}.
 \incfig{figmas5calls}{\textwidth}{Present/absent calls.}{The barplot shows, for each of the
-  \Sexpr{ncol(mas5c)} arrays, the number of genes targeted by probe sets with "A" (light
+  \code{ncol(mas5c)} arrays, the number of genes targeted by probe sets with "A" (light
   grey), "M" (light blue) and "P" (blue) calls. 
-  The \Sexpr{ncol(mas5c)+1}-th bar at the very right corresponds to detection in at least
-  \Sexpr{fractionOfArrays*100}\% of arrays.}
+  The \code{ncol(mas5c)+1}-th bar at the very right corresponds to detection in at least
+  \code{fractionOfArrays*100}\% of arrays.}
 
 
 %----------------------------------------------------------
