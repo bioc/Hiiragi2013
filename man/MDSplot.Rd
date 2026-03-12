@@ -42,6 +42,6 @@ colours = setNames(RColorBrewer::brewer.pal(10, "Paired")[c(9, 7)], c("WT", "FGF
 stopifnot(!any(is.na(colours)))
 
 ## select 100 most variable genes for plotting
-selMDS = order(rowVars(exprs(y)), decreasing=TRUE)[seq_len(100)]
+selMDS = order(genefilter::rowVars(exprs(y)), decreasing=TRUE)[seq_len(100)]
 MDSplot(y[selMDS,], col=colours)
 }
