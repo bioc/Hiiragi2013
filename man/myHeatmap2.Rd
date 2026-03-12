@@ -6,7 +6,14 @@
 Plots a heatmap with clustering of rows and columns specified by the \code{rowGroups} and \code{colGroups}, respectively.
 }
 \usage{
-myHeatmap2(x, rowGroups = factor(rep(1, nrow(x))), colGroups = factor(rep(1, ncol(x))), keeprownames = TRUE, colors = colorRampPalette(brewer.pal(9, "Blues")[-1])(100), ...)
+myHeatmap2(
+  x, 
+  rowGroups = factor(rep(1, nrow(x))), 
+  colGroups = factor(rep(1, ncol(x))), 
+  keeprownames = TRUE, 
+  colors = colorRampPalette(brewer.pal(9, "Blues")[-1])(100), 
+  ...
+)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

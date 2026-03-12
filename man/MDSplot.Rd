@@ -6,7 +6,16 @@
 Visualization of data similarity using non-metric multidimensional scaling.
 }
 \usage{
-MDSplot(x, mask, flip = integer(0), rotation = 0, cex = 2, col = x$sampleColour, panellabel, pointlabel)
+MDSplot(
+  x, 
+  mask, 
+  flip = integer(0), 
+  rotation = 0, 
+  cex = 2, 
+  col = x$sampleColour, 
+  panellabel, 
+  pointlabel
+)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
