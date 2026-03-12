@@ -65,6 +65,9 @@ a = ReadAffy(filenames = fileNames, celfile.path = CELdir, phenoData = pdata,
 pData(a)$ScanDate = factor(as.Date(sub( "10/16/09", "2010-09-16",
     sapply(strsplit( protocolData(a)$ScanDate, split = "[T ]" ), `[`, 1) )))
 
+# We no longer include the data directly in the package because it's too heavy.
+# In particular, GitHub has a file size limit of 100 MB, which this file exceeds.
+
 # save(a, file="a.rda", compress="xz")
 
 ## -------------------------------------------------------------------------------------

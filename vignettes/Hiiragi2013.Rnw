@@ -181,6 +181,8 @@ mas5c = mas5calls(a[, selectedSamples])
 @
 %
 where \code{a} is an \emph{AffyBatch} object containing the unprocessed raw intensity values.
+See \code{system.file("scripts", "readdata.R", package = "Hiiragi2013")} for details on how
+to create it by downloading raw data from ArrayExpress.
 Some bookkeeping and shuffling around is needed to compute the number of genes, as defined by
 unique Ensembl identifiers, for the classes \emph{present} (P), \emph{marginal} (M) and
 \emph{absent} (A). If multiple probe sets map to one gene (which happens frequently on this array
