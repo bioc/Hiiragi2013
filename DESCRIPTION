@@ -11,21 +11,22 @@ Depends:
     R (>= 4.0.0),
     Biobase
 Imports: 
-    MASS, 
-    RColorBrewer, 
-    cluster, 
-    gplots, 
-    grid, 
+    MASS,
+    RColorBrewer,
+    cluster,
+    gplots,
+    grid,
     lattice,
-    latticeExtra, 
-    KEGGREST, 
-    affy, 
-    boot, 
-    clue, 
-    genefilter, 
-    geneplotter, 
-    gtools, 
-    mouse4302.db, 
+    latticeExtra,
+    genefilter
+Suggests: 
+    affy,
+    BiocStyle,
+    boot,
+    clue,
+    geneplotter,
+    gtools,
+    KEGGREST,
+    mouse4302.db,
     xtable
-Suggests: BiocStyle
 biocViews: ExperimentData, MicroarrayData, qPCRData, ReproducibleResearch

@@ -10,16 +10,7 @@ importFrom("RColorBrewer", "brewer.pal")
 importFrom("grDevices", "colorRampPalette", "grey")
 importFrom("graphics", "par", "points", "text")
 importFrom("stats", "as.dendrogram", "dist", "hclust", "order.dendrogram", "p.adjust", "quantile")
-
-import("KEGGREST")
-import("affy")
-import("boot")
-import("clue")
-import("genefilter")
-import("geneplotter")
-import("gtools")
-import("mouse4302.db")
-import("xtable")
+importFrom("genefilter", "rowVars", "rowttests")
 
 ## exports
 export("pamCluster")
