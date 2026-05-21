@@ -154,6 +154,7 @@ standard deviation of each probe set's signal, across the \Sexpr{ncol(xe)} sampl
 (Figure~\ref{figHistSds}).
 %
 <<figHistSds,fig=TRUE,width=6,height=4>>=
+library(genefilter)
 sdxe = rowSds(exprs(xe))
 thresh = 0.5
 hist(sdxe, 100, col = "skyblue")
@@ -267,6 +268,7 @@ m$ is used, where $d$ is the Euclidean dissimilarity,
 and $m$ is an upper bound for the maximal Euclidean dissimilarity~\cite{Dimitriadou:2002}.
 %
 <<clusterResampling>>=
+library(clue)
 clusterResampling = function(x, ngenes, k = 2, B = 250, prob = 0.67) {
   mat = exprs(x)
   ce = cl_ensemble(list = lapply(seq_len(B), function(b) {
@@ -1131,6 +1133,7 @@ for(p in ctrls[1:8])
 %------------------------------------------------------------
 %Fisher tests against KEGG pathways.
 <<kegg,cache=TRUE,eval=FALSE,echo=FALSE>>=
+library(mouse4302.db)
 allGenes = unique(fData(x35)$symbol)
 sigGenes = unique(df$symbol)
 ntot = length(allGenes)
@@ -1150,6 +1153,7 @@ fts = lapply(keggpw, function(ps) {
 @ 
 Kolmogorov-Smirnov tests against KEGG pathways.
 <<kegg,cache=TRUE>>=
+library(mouse4302.db)
 keggpw = as.list(mouse4302PATH2PROBE)
 dat  = de$PE$dm+de$EPI$dm
 fts = lapply(keggpw, function(ps) {
@@ -1180,6 +1184,7 @@ pws = unique( c(pws, names(fts)[ sapply(fts, function(x)
 Make an online query at the KEGG database.
 %
 <<pwInfo,cache=TRUE>>=
+library(KEGGREST)
 query  = paste0("mmu", pws)
 query  = split(query, seq(along = query) %/% 10)
 pwInfo = unlist(lapply(query, keggGet), recursive = FALSE)
@@ -1212,6 +1217,7 @@ df = data.frame(
   stringsAsFactors = FALSE, check.names = FALSE)
 @
 <<printxtable>>=
+library(xtable)
 print(xtable(df,
   caption = paste("Gene set enrichment analysis of selected KEGG pathways, for the",
                    "differentially expressed genes between E3.5 FGF-4 KO and WT samples.",
@@ -1227,6 +1233,7 @@ Table~\ref{tab_KEGG} shows
 \end{enumerate}
 We visualize their data in Figure~\ref{figShowPws}, see code below.
 <<figShowPws,fig=TRUE,png=TRUE,pdf=FALSE,width=16,height=20>>=
+library(geneplotter)
 par(mfrow = c(7,4)); stopifnot(length(pws)<=42)
 for(i in seq(along = pws)) {
   inpw = factor(ifelse(rownames(fData(x35)) %in% keggpw[[pws[i]]],"in pathway","outside"))
@@ -1329,6 +1336,7 @@ stopifnot(!any(is.na(x$strata)))
 
 Now we are ready to go, we use the bootstrap to assess variability in our divergene estimates:
 <<doJSD,cache=TRUE>>=
+library(boot)
 bootJSD = boot(data = cbind(x$strata, t(exprs(x))),
                statistic = function(...) computeDivergences(..., fun = JSD),
                R = 100, strata = x$strata)
@@ -1768,6 +1776,7 @@ costfun2 = function(x, sg) {
   mean( (x[-1,k]<3 ) & (x[-nrow(x),k]==3) )
 }
 
+library(gtools)
 perms = permutations(nrow(sxq), nrow(sxq))
 bruteForceOptimisation = function(fun, samps) {
   if (missing(samps)) samps = rep(TRUE, ncol(sxqd))
