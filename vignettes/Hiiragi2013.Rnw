@@ -222,11 +222,16 @@ gplots::barplot2(numCalls, names.arg = paste(seq_len(ncol(callsPerGenePerArray))
 @ 
 %
 See Figure~\ref{figmas5calls}.
-\incfig{figmas5calls}{\textwidth}{Present/absent calls.}{The barplot shows, for each of the
-  \code{ncol(mas5c)} arrays, the number of genes targeted by probe sets with "A" (light
+
+\begin{figure}
+\includegraphics[width=\textwidth]{figmas5calls}
+\caption{The barplot shows, for each of the
+  \texttt{ncol(mas5c)} arrays, the number of genes targeted by probe sets with "A" (light
   grey), "M" (light blue) and "P" (blue) calls. 
-  The \code{ncol(mas5c)+1}-th bar at the very right corresponds to detection in at least
-  \code{fractionOfArrays*100}\% of arrays.}
+  The \texttt{ncol(mas5c)+1}-th bar at the very right corresponds to detection in at least
+  \texttt{fractionOfArrays*100}\% of arrays.}
+\label{figmas5calls}
+\end{figure}
 
 
 %----------------------------------------------------------
