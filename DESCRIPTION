@@ -33,3 +33,4 @@ Suggests:
     mouse4302.db,
     xtable
 biocViews: ExperimentData, MicroarrayData, qPCRData, ReproducibleResearch
+BuildResaveData: no
