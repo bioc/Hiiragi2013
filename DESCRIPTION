@@ -1,7 +1,7 @@
 Package: Hiiragi2013
 Type: Package
 Title: Cell-to-cell expression variability followed by signal reinforcement progressively segregates early mouse lineages
-Version: 1.49.4
+Version: 1.49.5
 Authors@R: 
     c(
         person("Andrzej", "Oles", role = "aut"),
