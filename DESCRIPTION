@@ -15,9 +15,9 @@ Depends:
     Biobase
 Imports: 
     MASS,
-    RColorBrewer,
     cluster,
     gplots,
+    grDevices,
     grid,
     lattice,
     latticeExtra,

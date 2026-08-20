@@ -38,7 +38,7 @@ data(x)
 y = x[, with(pData(x), Embryonic.day=="E3.25")]
 
 ## define colours for plotting
-colours = setNames(RColorBrewer::brewer.pal(10, "Paired")[c(9, 7)], c("WT", "FGF4-KO"))[y$genotype]
+colours = setNames(grDevices::palette.colors(10, "Paired")[c(9, 7)], c("WT", "FGF4-KO"))[y$genotype]
 stopifnot(!any(is.na(colours)))
 
 ## select 100 most variable genes for plotting

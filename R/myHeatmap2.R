@@ -3,7 +3,7 @@ function(x,
   rowGroups = factor(rep(1, nrow(x))),
   colGroups = factor(rep(1, ncol(x))),
   keeprownames  = TRUE,
-  colors = colorRampPalette(brewer.pal(9, "Blues")[-1])(100),
+  colors = colorRampPalette(hcl.colors(9, "Blues")[-1])(100),
   ...) {
 
   x = ordermat(x,    rowGroups, ...)

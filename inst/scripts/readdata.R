@@ -2,7 +2,6 @@ library("affy")
 library("ArrayExpress")
 library("arrayQualityMetrics")
 library("mouse4302.db")
-library("RColorBrewer")
 
 CELdir    = tempdir()
 CELfiles  = getAE("E-MTAB-1681", path = CELdir, type = "raw")$rawFiles
@@ -108,11 +107,11 @@ groups = with(pData(x), list(
 
 sampleColourMap = character(length(groups))
 names(sampleColourMap) = names(groups)
-sampleColourMap[c("E3.5 (EPI)", "E4.5 (EPI)")]         = brewer.pal(10, "Paired")[1:2]
-sampleColourMap[c("E3.5 (PE)", "E4.5 (PE)")]           = brewer.pal(10, "Paired")[3:4]
-sampleColourMap[c("E3.25 (FGF4-KO)")]                  = brewer.pal(10, "Paired")[c(7)]
-sampleColourMap[c("E3.5 (FGF4-KO)", "E4.5 (FGF4-KO)")] = brewer.pal(10, "Paired")[c(8,6)]
-sampleColourMap[c("E3.25")]                            = brewer.pal(12, "Paired")[c(9)]
+sampleColourMap[c("E3.5 (EPI)", "E4.5 (EPI)")]         = palette.colors(10, "Paired")[1:2]
+sampleColourMap[c("E3.5 (PE)", "E4.5 (PE)")]           = palette.colors(10, "Paired")[3:4]
+sampleColourMap[c("E3.25 (FGF4-KO)")]                  = palette.colors(10, "Paired")[c(7)]
+sampleColourMap[c("E3.5 (FGF4-KO)", "E4.5 (FGF4-KO)")] = palette.colors(10, "Paired")[c(8,6)]
+sampleColourMap[c("E3.25")]                            = palette.colors(12, "Paired")[c(9)]
 stopifnot(!any(sampleColourMap==""))
 
 ## The following assertions aim to make sure that each sample was assigned to

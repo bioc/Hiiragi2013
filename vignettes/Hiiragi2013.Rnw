@@ -218,7 +218,7 @@ numCalls[, 67]
 @
 <<figmas5calls,eval=FALSE,fig=TRUE,width=12,height=5>>=
 gplots::barplot2(numCalls, names.arg = paste(seq_len(ncol(callsPerGenePerArray))),
-         col = c(RColorBrewer::brewer.pal(8, "Paired")[2:1], "#e8e8e8"), ylab = "number of genes")
+         col = c(grDevices::palette.colors(8, "Paired")[2:1], "#e8e8e8"), ylab = "number of genes")
 @ 
 %
 See Figure~\ref{figmas5calls}.
@@ -303,7 +303,7 @@ the beginning of this section.
 %
 <<figClue1,fig=TRUE,width=9,height=5>>=
 par(mfrow = c(1,2))
-colours  = c(sampleColourMap["E3.25"], RColorBrewer::brewer.pal(9,"Set1")[9])
+colours  = c(sampleColourMap["E3.25"], grDevices::palette.colors(9,"Set 1")[9])
 
 boxplot(lapply(ce, `[[`, "agreements"), ylab = "agreement probabilities", col = colours)
 
@@ -801,7 +801,7 @@ the WT samples approach the background signal level seen for the KOs.
 <<figFGF4expression, fig=TRUE, width=10, height=5>>=
 x325  = x[, with(pData(x), Embryonic.day=="E3.25")]
 rv325 = rowVars(exprs(x325))
-featureColours = RColorBrewer::brewer.pal(sum(FGF4probes), "Dark2")
+featureColours = grDevices::palette.colors(sum(FGF4probes), "Dark 2")
 py = t(exprs(x325)[FGF4probes, ])
 matplot(py, type = "p", pch = 15, col = featureColours,
         xlab = "arrays", ylab = expression(log[2] ~ signal),
@@ -1643,7 +1643,7 @@ stopifnot(!any(is.na(xq$sampleColours)))
 Next, we define a function \Rfunction{myHeatmap3} to create heatmaps
 <<myHeatmap3>>=
 myHeatmap3 = function(x, log = TRUE, 
-  col = colorRampPalette(RColorBrewer::brewer.pal(9, "Blues"))(ncol), ncol = 100, ...) {
+  col = colorRampPalette(grDevices::hcl.colors(9, "Blues"))(ncol), ncol = 100, ...) {
   mat = exprs(x)
   if(log){
     mat[mat<1] = 1
@@ -1867,7 +1867,7 @@ To examine how cell position within the embryo influences its gene expression, c
 <<mdsplot,width=5,height=5,fig=TRUE,results=hide>>=
 data("xql")
 
-labeledSampleColourMap = c(RColorBrewer::brewer.pal(5, "RdGy")[c(1,2)], RColorBrewer::brewer.pal(5, "BrBG")[c(4,5)])
+labeledSampleColourMap = c(grDevices::hcl.colors(5, "RdGy")[c(1,2)], grDevices::hcl.colors(5, "BrBG")[c(4,5)])
 names(labeledSampleColourMap) = c("E4.5_high", "E3.5_high", "E3.5_low",  "E4.5_low")
 labeledGroups = with(pData(xql), list(
   `E3.5_high` = which(Label=="High" & Embryonic.day=="E3.5"),

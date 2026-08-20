@@ -11,7 +11,7 @@ myHeatmap2(
   rowGroups = factor(rep(1, nrow(x))), 
   colGroups = factor(rep(1, ncol(x))), 
   keeprownames = TRUE, 
-  colors = colorRampPalette(brewer.pal(9, "Blues")[-1])(100), 
+  colors = colorRampPalette(hcl.colors(9, "Blues")[-1])(100), 
   ...
 )
 }
@@ -32,7 +32,7 @@ The result of the function is a plot.
 \examples{
 ## The function is currently defined as
 function (x, rowGroups = factor(rep(1, nrow(x))), colGroups = factor(rep(1, ncol(x))),
-    keeprownames = TRUE, colors = colorRampPalette(brewer.pal(9, "Blues")[-1])(100), ...) {
+    keeprownames = TRUE, colors = colorRampPalette(hcl.colors(9, "Blues")[-1])(100), ...) {
     x = ordermat(x, rowGroups, ...)
     x = ordermat(t(x), colGroups, ...)
     if (!keeprownames) 
